@@ -1,0 +1,29 @@
+version: "2.1"
+services:
+  mongo:
+    image: mongo:3.2.4
+    ports:
+    - 27017:27017
+    command: --smallfiles
+        
+  add:
+    image: py-library-add-service:latest
+    ports:
+    - 8000:8000
+    links:
+    - mongo
+    entrypoint: "python server.py"
+
+  find:
+    image: py-library-find-service:latest
+    ports:
+    - 5000:5000
+    links:
+    - mongo
+    entrypoint: "python server.py"
+
+  ui:
+    image: py-library-ui-service:latest
+    ports:
+    - 8080:8080
+    entrypoint: "python server.py"
